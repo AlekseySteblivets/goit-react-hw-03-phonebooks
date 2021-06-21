@@ -18,6 +18,21 @@ class App extends Component {
     filter: '',
   }
 
+  componentDidMount () {
+    // console.log('пришел ДИДМАУНТ');
+    const contacts = localStorage.getItem('myLocalStorageContacts');
+    const parsedContacts = JSON.parse(contacts);
+    if(parsedContacts) {
+      this.setState({contacts: parsedContacts})
+    }
+    console.log(parsedContacts);
+  }
+  componentDidUpdate (prevProps, prevState) {
+    if(this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('myLocalStorageContacts', JSON.stringify(this.state.contacts))
+    }
+  }
+
   changeFilter = e => this.setState({filter: e.currentTarget.value});
 
   getVisibleContacts = () => {
